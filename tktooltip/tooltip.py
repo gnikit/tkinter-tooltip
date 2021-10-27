@@ -21,6 +21,7 @@ class ToolTip(tk.Toplevel):
         msg: Union[str, Callable] = None,
         delay: float = 0.0,
         follow: bool = True,
+        refresh: float = 1.0,
         x_offset: int = +10,
         y_offset: int = +10,
         parent_kwargs: dict = {"bg": "black", "padx": 1, "pady": 1},
@@ -39,6 +40,10 @@ class ToolTip(tk.Toplevel):
                                      Defaults to 0.0
             follow (bool, optional): ToolTip follows motion, otherwise hides.
                                      Defaults to True.
+            refresh (float, optional): Refresh rate in seconds for strings and
+                                       functions when mouse is stationary and
+                                       inside the widget.
+                                       Defaults to 1.0.
             x_offset (int, optional): x-coordinate offset for the ToolTip.
                                       Defaults to +10.
             y_offset (int, optional): x-coordinate offset for the ToolTip.
@@ -64,6 +69,7 @@ class ToolTip(tk.Toplevel):
         self.msg = msg
         self.delay = delay
         self.follow = follow
+        self.refresh = refresh
         self.x_offset = x_offset
         self.y_offset = y_offset
         # visibility status of the ToolTip inside|outside|visible
@@ -73,10 +79,10 @@ class ToolTip(tk.Toplevel):
         tk.Message(self, textvariable=self.msgVar, aspect=1000, **message_kwargs).grid()
         # Add bindings to the widget.
         # This will NOT override bindings that the widget already has
-        self.widget.bind("<Enter>", lambda event: self.on_enter(event))
-        self.widget.bind("<Leave>", lambda event: self.on_leave(event))
-        self.widget.bind("<Motion>", lambda event: self.on_enter(event))
-        self.widget.bind("<ButtonPress>", lambda event: self.on_leave(event))
+        self.widget.bind("<Enter>", self.on_enter)
+        self.widget.bind("<Leave>", self.on_leave)
+        self.widget.bind("<Motion>", self.on_enter)
+        self.widget.bind("<ButtonPress>", self.on_leave)
 
     def on_enter(self, event) -> None:
         """
@@ -129,3 +135,8 @@ class ToolTip(tk.Toplevel):
                     + f"function instead `msg` of type {type(self.msg)} was input"
                 )
             self.deiconify()
+
+            # Recursively call _show to update ToolTip with the newest value of msg
+            # This is a race condition which only exits when upon a binding change
+            # that in turn changes the `status` to outside
+            self.after(int(self.refresh * 1000), self._show)
