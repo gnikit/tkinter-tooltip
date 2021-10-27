@@ -41,7 +41,7 @@ jobs:
           echo "Branch:" $GITHUB_REF
           echo "git SHA:" $GITHUB_SHA
           echo "Version:" ${VERSION}
-          sed -i "s/PLACEHOLDER/${VERSION}/g ${PACKAGE_NAME}/_version.py"
+          sed -i "s/PLACEHOLDER/${VERSION}/g" "tktooltip/_version.py"
 
           pip install --upgrade pip setuptools wheel tkinter
           python setup.py sdist bdist_wheel

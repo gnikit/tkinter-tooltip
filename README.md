@@ -3,10 +3,10 @@
 ## What this is
 
 This is a simple yet fully customisable tooltip/pop-up implementation for
-`tkinter` widgets based on the original work performed by
-[Tucker Beck](http://code.activestate.com/recipes/576688-tooltip-for-tkinter/)
+`tkinter` widgets. It is capable of fully integrating with custom `tkinter`
+themes both light and dark ones.
 
-![alt](./assets/images/header.png)
+![alt](assets/images/header.png)
 
 ## Features
 
@@ -29,12 +29,12 @@ pip install tkinter-tooltip
 By default the tooltip activates when entering and/or moving in the widget are
 and deactivates when leaving and/or pressing any button.
 
-![alt](./assets/images/tootil-simple.png)
+![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/tootil-simple.png)
 
 ```python
 import tkinter as tk
 import tkinter.ttk as ttk
-from tooltip import ToolTip
+from tktooltip import ToolTip
 
 app = tk.Tk()
 b = ttk.Button(app, text="Button").pack()
@@ -44,12 +44,12 @@ app.mainloop()
 
 ### Delayed tooltip
 
-![alt](./assets/animations/tooltip-delayed.gif)
+![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tooltip-delayed.gif)
 
 ```python
 import tkinter as tk
 import tkinter.ttk as ttk
-from tooltip import ToolTip
+from tktooltip import ToolTip
 
 app = tk.Tk()
 b = ttk.Button(app, text="Button")
@@ -62,12 +62,12 @@ app.mainloop()
 
 Have the tooltip follow the mousse cursor around when moving.
 
-![alt](./assets/animations/tooltip-tracking.gif)
+![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tooltip-tracking.gif)
 
 ```python
 import tkinter as tk
 import tkinter.ttk as ttk
-from tooltip import ToolTip
+from tktooltip import ToolTip
 
 app = tk.Tk()
 b = ttk.Button(app, text="Button")
@@ -81,13 +81,13 @@ app.mainloop()
 Here the tooltip returns the value of `time.asctime()` which updates with every
 movement. NOTE: the values do not update when the cursor is stationary.
 
-![alt](./assets/animations/tootip-function.gif)
+![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tootip-function.gif)
 
 ```python
 import time
 import tkinter as tk
 import tkinter.ttk as ttk
-from tooltip import ToolTip
+from tktooltip import ToolTip
 
 app = tk.Tk()
 b = ttk.Button(app, text="Button")
@@ -101,7 +101,7 @@ app.mainloop()
 `tkinter-tooltip` is fully aware of the underlying theme (in this case a dark theme),
 and can even be furher customised by passing `tk` styling arguments to the tooltip
 
-![alt](./assets/animations/tootip-dark-theme.gif)
+![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tootip-dark-theme.gif)
 
 Style tooltip and underlying the button. If a full theme has been used then
 the `ToolTip` will inherit the settings of the theme by default.
@@ -109,7 +109,7 @@ the `ToolTip` will inherit the settings of the theme by default.
 ```python
 import tkinter as tk
 import tkinter.ttk as ttk
-from tooltip import ToolTip
+from tktooltip import ToolTip
 
 app = tk.Tk()
 s = ttk.Style()
@@ -122,10 +122,11 @@ ToolTip(b, msg="Hover info", delay=0,
 app.mainloop()
 ```
 
-
 ## Acknowledgements
 
-Special thanks to Tucker Beck for writting the original version of the code.
+`tkinter-tooltip` is based on the original work performed by
+[Tucker Beck](http://code.activestate.com/recipes/576688-tooltip-for-tkinter/)
+licensed under an MIT License.
 
 ## License
 
