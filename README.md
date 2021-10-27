@@ -6,7 +6,7 @@ This is a simple yet fully customisable tooltip/pop-up implementation for
 `tkinter` widgets. It is capable of fully integrating with custom `tkinter`
 themes both light and dark ones.
 
-![alt](assets/images/header.png)
+![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/header.png)
 
 ## Features
 

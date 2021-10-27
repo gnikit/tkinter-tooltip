@@ -41,5 +41,5 @@ setup(
     keywords=["tkinter", "tktooltip", "tkinter-tooltip", "tooltip", "pop-up"],
     packages=["tktooltip"],
     include_package_data=True,
-    install_requires=["tkinter"],
+    install_requires=["python-tk"],
 )
