@@ -1,3 +1,7 @@
+"""
+Module defining the ToolTip widget
+"""
+
 import time
 import tkinter as tk
 from typing import Callable, Union
@@ -69,10 +73,10 @@ class ToolTip(tk.Toplevel):
         tk.Message(self, textvariable=self.msgVar, aspect=1000, **message_kwargs).grid()
         # Add bindings to the widget.
         # This will NOT override bindings that the widget already has
-        self.widget.bind("<Enter>", self.on_enter)
-        self.widget.bind("<Leave>", self.on_leave)
-        self.widget.bind("<Motion>", self.on_enter)
-        self.widget.bind("<ButtonPress>", self.on_leave)
+        self.widget.bind("<Enter>", lambda event: self.on_enter(event))
+        self.widget.bind("<Leave>", lambda event: self.on_leave(event))
+        self.widget.bind("<Motion>", lambda event: self.on_enter(event))
+        self.widget.bind("<ButtonPress>", lambda event: self.on_leave(event))
 
     def on_enter(self, event) -> None:
         """
@@ -81,7 +85,7 @@ class ToolTip(tk.Toplevel):
         self.last_moved = time.time()
 
         # Set the status as inside for the very first time
-        if self.status is "outside":
+        if self.status == "outside":
             self.status = "inside"
 
         # If the follow flag is not set, motion within the widget will
@@ -107,10 +111,10 @@ class ToolTip(tk.Toplevel):
         """
         Displays the ToolTip if the time delay has been long enough
         """
-        if self.status is "inside" and time.time() - self.last_moved > self.delay:
+        if self.status == "inside" and time.time() - self.last_moved > self.delay:
             self.status = "visible"
 
-        if self.status is "visible":
+        if self.status == "visible":
             # Update the string with the latest function call
             # Try and call self.msg as a function, if msg is not callable try and
             # set it as a normal string if that fails throw an error
@@ -121,7 +125,7 @@ class ToolTip(tk.Toplevel):
                 self.msgVar.set(self.msg)
             except:
                 raise (
-                    "Error: ToolTip `msg` must be a string or string returning function "
-                    f"instead `msg` of type {type(self.msg)} was input"
+                    "Error: ToolTip `msg` must be a string or string returning "
+                    + f"function instead `msg` of type {type(self.msg)} was input"
                 )
             self.deiconify()

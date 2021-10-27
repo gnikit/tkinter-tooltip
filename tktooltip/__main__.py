@@ -1,13 +1,10 @@
 import time
 import tkinter as tk
 import tkinter.ttk as ttk
-from tktooltip import ToolTip
 from itertools import product
 from tkinter import font as tkFont
 
-
-def get_time():
-    return time.asctime()
+from tooltip import ToolTip
 
 
 def custom_font(frame, **kwargs):
@@ -31,7 +28,7 @@ def main():
             follow = False
             text += "follow tooltip: no\n"
         if j % 2 == 0:
-            msg = get_time
+            msg = time.asctime
             text += "tooltip: Function"
         else:
             msg = f"Button at {str((i, j))}"
