@@ -100,7 +100,8 @@ from tktooltip import ToolTip
 app = tk.Tk()
 b = ttk.Button(app, text="Button")
 b.pack()
-ToolTip(b, msg=time.asctime(), delay=0)
+# NOTE: pass the function itself not the return value
+ToolTip(b, msg=time.asctime, delay=0)
 app.mainloop()
 ```
 
