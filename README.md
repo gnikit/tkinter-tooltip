@@ -85,8 +85,10 @@ app.mainloop()
 ### Function as tooltip
 
 Here the tooltip returns the value of `time.asctime()` which updates with every
-movement. NOTE: the values do not update when the cursor is stationary.
+movement. You can control the refresh rate of the `ToolTip` through the `refresh`
+argument by default it is set to `1s`.
 
+![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tootip-function-refresh.gif)
 ![alt](https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tootip-function.gif)
 
 ```python
