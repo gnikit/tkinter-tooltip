@@ -4,6 +4,10 @@
 [![PyPI - License](https://img.shields.io/pypi/l/tkinter-tooltip)](https://github.com/gnikit/tkinter-tooltip/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/tooltip_logo.svg" />
+</p>
+
 # tkinter-tooltip
 
 ## What this is
