@@ -4,3 +4,8 @@ dist/
 themes/
 *.egg-info/
 .idea
+
+# Documentation
+docs/_build
+docs/_template
+docs/_static
