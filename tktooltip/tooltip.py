@@ -1,6 +1,7 @@
 """
 Module defining the ToolTip widget
 """
+from __future__ import annotations
 
 import time
 import tkinter as tk
@@ -27,32 +28,33 @@ class ToolTip(tk.Toplevel):
         parent_kwargs: dict = {"bg": "black", "padx": 1, "pady": 1},
         **message_kwargs,
     ):
-        """Initialise the ToolTip allows for **kwargs to be passed on both
+        """Create a ToolTip. Allows for `**kwargs` to be passed on both
             the parent frame and the ToolTip message
 
-        Args:
-            widget (tk.Widget): The widget this ToolTip is assigned to
-            msg (str, optional): A string message (can be dynamic) assigned to the ToolTip.
-                                 Alternatively, it can be set to a function that
-                                 returns a string.
-                                 Defaults to None.
-            delay (float, optional): delay in seconds before the ToolTip appears.
-                                     Defaults to 0.0
-            follow (bool, optional): ToolTip follows motion, otherwise hides.
-                                     Defaults to True.
-            refresh (float, optional): Refresh rate in seconds for strings and
-                                       functions when mouse is stationary and
-                                       inside the widget.
-                                       Defaults to 1.0.
-            x_offset (int, optional): x-coordinate offset for the ToolTip.
-                                      Defaults to +10.
-            y_offset (int, optional): x-coordinate offset for the ToolTip.
-                                      Defaults to +10.
-            parent_kwargs (dict, optional): Optional kwargs to be passed into
-                                            the parent frame.
-                                            Defaults to {"bg": "black", "padx": 1, "pady": 1}.
+        Parameters
+        ----------
+        widget : tk.Widget
+            The widget this ToolTip is assigned to
+        msg : `Union[str, Callable]`, optional
+            A string message (can be dynamic) assigned to the ToolTip.
+            Alternatively, it can be set to a function thatreturns a string,
+            by default None
+        delay : `float`, optional
+            Delay in seconds before the ToolTip appears, by default 0.0
+        follow : `bool`, optional
+            ToolTip follows motion, otherwise hides, by default True
+        refresh : `float`, optional
+            Refresh rate in seconds for strings and functions when mouse is
+            stationary and inside the widget, by default 1.0
+        x_offset : `int`, optional
+            x-coordinate offset for the ToolTip, by default +10
+        y_offset : `int`, optional
+            y-coordinate offset for the ToolTip, by default +10
+        parent_kwargs : `dict`, optional
+            Optional kwargs to be passed into the parent frame,
+            by default `{"bg": "black", "padx": 1, "pady": 1}`
+        **message_kwargs : tkinter `**kwargs` passed directly into the ToolTip
         """
-
         self.widget = widget
         # ToolTip should have the same parent as the widget unless stated
         # otherwise in the `parent_kwargs`
