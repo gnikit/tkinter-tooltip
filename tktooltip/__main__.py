@@ -17,7 +17,7 @@ def main():
     s.configure("custom.TButton", foreground="#208020", background="#fafafa")
     # root.tk.call("source", "themes/sun-valley/sun-valley.tcl")
     # root.tk.call("set_theme", "dark")
-    btnList = []
+    btn_list = []
     for (i, j) in list(product(range(2), range(4))):
         text = f"delay={i}s\n"
         delay = i
@@ -33,9 +33,9 @@ def main():
         else:
             msg = f"Button at {str((i, j))}"
             text += "tooltip: String"
-        btnList.append(ttk.Button(root, text=text, style="custom.TButton"))
+        btn_list.append(ttk.Button(root, text=text, style="custom.TButton"))
         ToolTip(
-            btnList[-1],
+            btn_list[-1],
             msg=msg,
             follow=follow,
             delay=delay,
@@ -48,7 +48,7 @@ def main():
             pady=10,
             font=custom_font(root, size=8, weight=tkFont.BOLD),
         )
-        btnList[-1].grid(row=i, column=j, sticky="nsew", ipadx=20, ipady=20)
+        btn_list[-1].grid(row=i, column=j, sticky="nsew", ipadx=20, ipady=20)
     root.mainloop()
 
 
