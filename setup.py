@@ -1,5 +1,5 @@
 import pathlib
-from setuptools import setup
+from setuptools import setup, find_packages
 from tktooltip import __version__
 
 # The directory containing this file
@@ -39,7 +39,6 @@ setup(
         "Operating System :: MacOS",
     ],
     keywords=["tkinter", "tktooltip", "tkinter-tooltip", "tooltip", "pop-up"],
-    packages=["tktooltip"],
+    packages=find_packages(exclude=["assets", "docs", "examples", "themes"]),
     include_package_data=True,
-    install_requires=["tk"],
 )
