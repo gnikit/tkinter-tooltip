@@ -9,3 +9,6 @@ themes/
 docs/_build
 docs/_template
 docs/_static
+
+# setuptools_scm
+tktooltip/_version.py
