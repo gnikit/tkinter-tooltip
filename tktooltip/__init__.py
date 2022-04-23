@@ -13,8 +13,8 @@ Features:
     - Theme-aware tooltips and fully customisable
 """
 
-from ._version import __version__
 from .tooltip import ToolTip
+from .version import __version__
 
 __all__ = [
     "ToolTip",
