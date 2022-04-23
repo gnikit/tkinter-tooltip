@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>tkinter-tooltip &mdash; tkinter-tooltip  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <title>tkinter-tooltip &mdash; tkinter-tooltip  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,7 +37,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">tkinter-tooltip</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-this-is">What this is</a></li>
@@ -90,17 +92,17 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/tooltip_logo.svg" />
 </p>
-<div class="section" id="tkinter-tooltip">
-<h1>tkinter-tooltip<a class="headerlink" href="#tkinter-tooltip" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="what-this-is">
-<h2>What this is<a class="headerlink" href="#what-this-is" title="Permalink to this headline">¶</a></h2>
+<section id="tkinter-tooltip">
+<h1>tkinter-tooltip<a class="headerlink" href="#tkinter-tooltip" title="Permalink to this headline"></a></h1>
+<section id="what-this-is">
+<h2>What this is<a class="headerlink" href="#what-this-is" title="Permalink to this headline"></a></h2>
 <p>This is a simple yet fully customisable tooltip/pop-up implementation for
 <code class="docutils literal notranslate"><span class="pre">tkinter</span></code> widgets. It is capable of fully integrating with custom <code class="docutils literal notranslate"><span class="pre">tkinter</span></code>
 themes both light and dark ones.</p>
 <p><img alt="alt" src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/header.png" /></p>
-</div>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p>normal tooltips</p></li>
 <li><p>show tooltip with <code class="docutils literal notranslate"><span class="pre">s</span></code> seconds <code class="docutils literal notranslate"><span class="pre">delay</span></code></p></li>
@@ -108,17 +110,17 @@ themes both light and dark ones.</p>
 <li><p>tooltip displays strings and string returning functions</p></li>
 <li><p>fully customisable, tooltip inherits underlying theme style</p></li>
 </ul>
-</div>
-<div class="section" id="install">
-<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline"></a></h2>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install tkinter-tooltip
 </pre></div>
 </div>
-</div>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="normal-tooltips">
-<h3>Normal tooltips<a class="headerlink" href="#normal-tooltips" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<section id="normal-tooltips">
+<h3>Normal tooltips<a class="headerlink" href="#normal-tooltips" title="Permalink to this headline"></a></h3>
 <p>By default the tooltip activates when entering and/or moving in the widget are
 and deactivates when leaving and/or pressing any button.</p>
 <p><img alt="alt" src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/tootil-simple.png" /></p>
@@ -133,9 +135,9 @@ and deactivates when leaving and/or pressing any button.</p>
 <span class="n">app</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="delayed-tooltip">
-<h3>Delayed tooltip<a class="headerlink" href="#delayed-tooltip" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="delayed-tooltip">
+<h3>Delayed tooltip<a class="headerlink" href="#delayed-tooltip" title="Permalink to this headline"></a></h3>
 <p><img alt="alt" src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tooltip-delayed.gif" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
 <span class="kn">import</span> <span class="nn">tkinter.ttk</span> <span class="k">as</span> <span class="nn">ttk</span>
@@ -148,9 +150,9 @@ and deactivates when leaving and/or pressing any button.</p>
 <span class="n">app</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="tracking-tooltip">
-<h3>Tracking tooltip<a class="headerlink" href="#tracking-tooltip" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tracking-tooltip">
+<h3>Tracking tooltip<a class="headerlink" href="#tracking-tooltip" title="Permalink to this headline"></a></h3>
 <p>Have the tooltip follow the mousse cursor around when moving.</p>
 <p><img alt="alt" src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tooltip-tracking.gif" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
@@ -164,9 +166,9 @@ and deactivates when leaving and/or pressing any button.</p>
 <span class="n">app</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="function-as-tooltip">
-<h3>Function as tooltip<a class="headerlink" href="#function-as-tooltip" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="function-as-tooltip">
+<h3>Function as tooltip<a class="headerlink" href="#function-as-tooltip" title="Permalink to this headline"></a></h3>
 <p>Here the tooltip returns the value of <code class="docutils literal notranslate"><span class="pre">time.asctime()</span></code> which updates with every
 movement. You can control the refresh rate of the <code class="docutils literal notranslate"><span class="pre">ToolTip</span></code> through the <code class="docutils literal notranslate"><span class="pre">refresh</span></code>
 argument by default it is set to <code class="docutils literal notranslate"><span class="pre">1s</span></code>.</p>
@@ -185,9 +187,9 @@ argument by default it is set to <code class="docutils literal notranslate"><spa
 <span class="n">app</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="themed-tooltip">
-<h3>Themed tooltip<a class="headerlink" href="#themed-tooltip" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="themed-tooltip">
+<h3>Themed tooltip<a class="headerlink" href="#themed-tooltip" title="Permalink to this headline"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">tkinter-tooltip</span></code> is fully aware of the underlying theme (in this case a dark theme),
 and can even be furher customised by passing <code class="docutils literal notranslate"><span class="pre">tk</span></code> styling arguments to the tooltip</p>
 <p><img alt="alt" src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/animations/tootip-dark-theme.gif" /></p>
@@ -208,25 +210,25 @@ the <code class="docutils literal notranslate"><span class="pre">ToolTip</span><
 <span class="n">app</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="support">
-<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Permalink to this headline"></a></h2>
 <p>If you want to support this project you can do it through</p>
 <p><a class="reference external" href="https://paypal.me/inikit"><img alt="Alt" src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-150px.png" /></a>
 <a class="reference external" href="https://www.buymeacoffee.com/gnikit"><img alt="&quot;Buy Me A Coffee&quot;" src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" /></a></p>
-</div>
-<div class="section" id="acknowledgements">
-<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="acknowledgements">
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">tkinter-tooltip</span></code> is based on the original work performed by
 <a class="reference external" href="http://code.activestate.com/recipes/576688-tooltip-for-tkinter/">Tucker Beck</a>
 licensed under an MIT License.</p>
-</div>
-<div class="section" id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h2>
 <p>MIT License</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
