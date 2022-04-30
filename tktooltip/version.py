@@ -3,7 +3,7 @@ try:
 except ModuleNotFoundError:
     from importlib_metadata import PackageNotFoundError, version
 try:
-    __version__ = version(__package__)
+    __version__ = version("tkinter-tooltip")
 except PackageNotFoundError:
     from setuptools_scm import get_version
 
