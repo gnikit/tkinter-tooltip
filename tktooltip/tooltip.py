@@ -19,7 +19,7 @@ class ToolTip(tk.Toplevel):
     def __init__(
         self,
         widget: tk.Widget,
-        msg: Union[str, Callable] = None,
+        msg: str | Callable = None,
         delay: float = 0.0,
         follow: bool = True,
         refresh: float = 1.0,
