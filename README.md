@@ -8,7 +8,6 @@
 
 [![GitHub Sponsor](https://img.shields.io/static/v1?style=social&label=Sponsor&message=%E2%9D%A4&logo=GitHub&color&link=%3Curl%3E)](https://github.com/sponsors/gnikit)
 [![PyaPal](https://img.shields.io/static/v1?style=social&label=Donate&message=%E2%9D%A4&logo=Paypal&color&link=%3Curl%3E)](https://paypal.me/inikit)
-[![PyaPal](https://img.shields.io/static/v1?style=social&label=Donate&message=%E2%9D%A4&logo=BuyMeACoffee&color&link=%3Curl%3E)](https://www.buymeacoffee.com/gnikit)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/tooltip_logo.svg" />
