@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://gnikit.github.io/tkinter-tooltip/sitemap.xml

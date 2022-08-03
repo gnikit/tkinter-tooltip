@@ -4,14 +4,6 @@ tktooltip package
 Submodules
 ----------
 
-tktooltip.test module
----------------------
-
-.. automodule:: tktooltip.test
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 tktooltip.tooltip module
 ------------------------
 

@@ -4,6 +4,7 @@ dist/
 themes/
 *.egg-info/
 .idea
+venv/
 
 # Documentation
 docs/_build
