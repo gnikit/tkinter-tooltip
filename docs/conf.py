@@ -13,7 +13,7 @@
 import os
 import sys
 
-from tktooltip import __version__
+# from tktooltip import __version__
 
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -25,7 +25,7 @@ copyright = "2021-, Giannis Nikiteas"
 author = "Giannis Nikiteas"
 
 # The full version, including alpha/beta/rc tags
-release = __version__
+# release = __version__
 
 
 # -- General configuration ---------------------------------------------------
