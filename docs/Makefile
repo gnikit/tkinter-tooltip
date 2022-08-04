@@ -5,6 +5,8 @@
 # from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
+SPHINXAPIDOC  ?= sphinx-apidoc
+PANDOC		  ?= pandoc
 SOURCEDIR     = .
 BUILDDIR      = _build
 
@@ -18,3 +20,6 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+modules:
+	@$(SPHINXAPIDOC) -f -H "Documentation" ../tktooltip -o .

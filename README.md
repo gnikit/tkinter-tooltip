@@ -1,3 +1,5 @@
+<div align="center">
+
 [![Downloads](https://pepy.tech/badge/tkinter-tooltip)](https://pepy.tech/project/tkinter-tooltip)
 [![PyPI Latest Release](https://img.shields.io/pypi/v/tkinter-tooltip.svg)](https://pypi.org/project/tkinter-tooltip/)
 [![PyPi Release](https://github.com/gnikit/tkinter-tooltip/actions/workflows/python-publish.yml/badge.svg)](https://github.com/gnikit/tkinter-tooltip/actions/workflows/python-publish.yml)
@@ -6,8 +8,14 @@
 [![PyPI - License](https://img.shields.io/pypi/l/tkinter-tooltip)](https://github.com/gnikit/tkinter-tooltip/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+</div>
+
+<div align="center">
+
 [![GitHub Sponsor](https://img.shields.io/static/v1?style=social&label=Sponsor&message=%E2%9D%A4&logo=GitHub&color&link=%3Curl%3E)](https://github.com/sponsors/gnikit)
 [![PyaPal](https://img.shields.io/static/v1?style=social&label=Donate&message=%E2%9D%A4&logo=Paypal&color&link=%3Curl%3E)](https://paypal.me/inikit)
+
+</div>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/gnikit/tkinter-tooltip/master/assets/images/tooltip_logo.svg" />
@@ -141,6 +149,11 @@ ToolTip(b, msg="Hover info", delay=0,
 app.mainloop()
 ```
 
+## Contributing
+
+You can find the instructions on how to contribute in this project in the
+[CONTRIBUTING.md](CONTRIBUTING.md) file.
+
 ## Acknowledgements
 
 `tkinter-tooltip` is based on the original work performed by
@@ -149,4 +162,4 @@ licensed under an MIT License.
 
 ## License
 
-MIT License
+[MIT](LICENSE) License

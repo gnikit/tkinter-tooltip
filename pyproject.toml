@@ -10,3 +10,6 @@ build-backend = "setuptools.build_meta"
 # pyproject.toml
 [tool.setuptools_scm]
 write_to = "tktooltip/_version.py"
+
+[tool.isort]
+profile = "black"
