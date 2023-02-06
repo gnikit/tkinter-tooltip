@@ -18,7 +18,7 @@ def main():
     # root.tk.call("source", "themes/sun-valley/sun-valley.tcl")
     # root.tk.call("set_theme", "dark")
     btn_list = []
-    for (i, j) in list(product(range(2), range(4))):
+    for i, j in list(product(range(2), range(4))):
         text = f"delay={i}s\n"
         delay = i
         if j >= 2:
