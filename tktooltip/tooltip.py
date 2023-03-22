@@ -7,7 +7,6 @@ import time
 import tkinter as tk
 from typing import Callable
 
-
 # This code is based on Tucker Beck's implementation licensed under an MIT License
 # Original code: http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
 

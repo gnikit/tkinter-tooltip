@@ -2,6 +2,7 @@ import threading
 import time
 import tkinter as tk
 from typing import Callable
+
 from tktooltip.tooltip import ToolTip
 
 
