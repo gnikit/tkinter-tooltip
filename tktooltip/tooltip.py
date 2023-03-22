@@ -7,6 +7,7 @@ import time
 import tkinter as tk
 from typing import Callable
 
+
 # This code is based on Tucker Beck's implementation licensed under an MIT License
 # Original code: http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
 
@@ -18,7 +19,9 @@ class ToolTip(tk.Toplevel):
 
     def __init__(
         self,
-        widget: tk.Widget,
+        widget: (
+            tk.Widget | tk.Tk | tk.Toplevel | list[tk.Widget | tk.Tk | tk.Toplevel]
+        ),
         msg: str | Callable = None,
         delay: float = 0.0,
         follow: bool = True,
@@ -33,11 +36,11 @@ class ToolTip(tk.Toplevel):
 
         Parameters
         ----------
-        widget : tk.Widget
+        widget : `tk.Widget, tk.Tk, tk.Toplevel, list[tk.Widget, tk.Tk, tk.Toplevel]`
             The widget this ToolTip is assigned to
         msg : `Union[str, Callable]`, optional
             A string message (can be dynamic) assigned to the ToolTip.
-            Alternatively, it can be set to a function thatreturns a string,
+            Alternatively, it can be set to a function that returns a string,
             by default None
         delay : `float`, optional
             Delay in seconds before the ToolTip appears, by default 0.0
@@ -59,7 +62,9 @@ class ToolTip(tk.Toplevel):
         # ToolTip should have the same parent as the widget unless stated
         # otherwise in the `parent_kwargs`
         tk.Toplevel.__init__(self, **parent_kwargs)
-        self.withdraw()  # Hide initially in case there is a delay
+        # Hide initially in case there is a delay
+        self.iconify()
+        self.withdraw()
         # Disable ToolTip's title bar
         self.overrideredirect(True)
 
@@ -80,10 +85,12 @@ class ToolTip(tk.Toplevel):
         # use Message widget to host ToolTip
         tk.Message(self, textvariable=self.msgVar, aspect=1000, **message_kwargs).grid()
         # Add bindings to the widget without overriding the existing ones
-        self.widget.bind("<Enter>", self.on_enter, add="+")
-        self.widget.bind("<Leave>", self.on_leave, add="+")
-        self.widget.bind("<Motion>", self.on_enter, add="+")
-        self.widget.bind("<ButtonPress>", self.on_leave, add="+")
+        if not isinstance(self.widget, list):
+            self.create_binds(widget=self.widget)
+        # Add bindings to each item in the widget list
+        else:
+            for item in self.widget:
+                self.create_binds(widget=item)
 
     def on_enter(self, event) -> None:
         """
@@ -96,7 +103,7 @@ class ToolTip(tk.Toplevel):
             self.status = "inside"
 
         # If the follow flag is not set, motion within the widget will
-        # make the ToolTip dissapear
+        # make the ToolTip disappear
         if not self.follow:
             self.status = "inside"
             self.withdraw()
@@ -143,3 +150,37 @@ class ToolTip(tk.Toplevel):
             # This is a race condition which only exits when upon a binding change
             # that in turn changes the `status` to outside
             self.after(int(self.refresh * 1000), self._show)
+
+    def create_binds(self, widget: tk.Tk | tk.Widget | tk.Toplevel) -> None:
+        """Creates the binds without overriding the existing ones"""
+        widget.bind("<Enter>", self.on_enter, add="+")
+        widget.bind("<Leave>", self.on_leave, add="+")
+        widget.bind("<Motion>", self.on_enter, add="+")
+        widget.bind("<ButtonPress>", self.on_leave, add="+")
+
+    def unbind_itself(self) -> None:
+        """
+        Unbinds every event sequence.
+        """
+        if not isinstance(self.widget, list):
+            self.widget.bind("<Enter>", "")
+            self.widget.bind("<Leave>", "")
+            self.widget.bind("<Motion>", "")
+            self.widget.bind("<ButtonPress>", "")
+        else:
+            for item in self.widget:
+                item.bind("<Enter>", "")
+                item.bind("<Leave>", "")
+                item.bind("<Motion>", "")
+                item.bind("<ButtonPress>", "")
+
+    def self_destroy_handler(self) -> None:
+        """A handler for destroying itself after a given time"""
+        self.after(1000, self.self_destroy())
+
+    def self_destroy(self) -> None:
+        """Unbinds and destroys itself after a given time
+        after checking if the tooltip still exists"""
+        self.unbind_itself()
+        if self.winfo_exists() == 1:
+            self.destroy()
