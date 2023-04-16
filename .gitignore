@@ -6,6 +6,11 @@ themes/
 .idea
 venv/
 
+# Coverage
+.coverage
+coverage.xml
+htmlcov/
+
 # Documentation
 docs/_build
 docs/_template
