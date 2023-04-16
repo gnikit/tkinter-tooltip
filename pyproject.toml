@@ -13,3 +13,8 @@ write_to = "tktooltip/_version.py"
 
 [tool.isort]
 profile = "black"
+
+[tool.pytest.ini_options]
+minversion = "7.2.0"
+addopts = "-v --cov=tktooltip --cov-report=html --cov-report=xml --cov-context=test"
+testpaths = ["test"]
