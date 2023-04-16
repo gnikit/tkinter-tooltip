@@ -2,7 +2,7 @@
 
 [![Downloads](https://pepy.tech/badge/tkinter-tooltip)](https://pepy.tech/project/tkinter-tooltip)
 [![PyPI Latest Release](https://img.shields.io/pypi/v/tkinter-tooltip.svg)](https://pypi.org/project/tkinter-tooltip/)
-[![PyPi Release](https://github.com/gnikit/tkinter-tooltip/actions/workflows/python-publish.yml/badge.svg)](https://github.com/gnikit/tkinter-tooltip/actions/workflows/python-publish.yml)
+[![Tests](https://github.com/gnikit/tkinter-tooltip/actions/workflows/main.yml/badge.svg)](https://github.com/gnikit/tkinter-tooltip/actions/workflows/main.yml)
 [![Documentation](https://github.com/gnikit/tkinter-tooltip/actions/workflows/docs.yml/badge.svg)](https://github.com/gnikit/tkinter-tooltip/actions/workflows/docs.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip/badge)](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip)
 [![PyPI - License](https://img.shields.io/pypi/l/tkinter-tooltip)](https://github.com/gnikit/tkinter-tooltip/blob/master/LICENSE)
