@@ -4,9 +4,10 @@
 [![PyPI Latest Release](https://img.shields.io/pypi/v/tkinter-tooltip.svg)](https://pypi.org/project/tkinter-tooltip/)
 [![Tests](https://github.com/gnikit/tkinter-tooltip/actions/workflows/main.yml/badge.svg)](https://github.com/gnikit/tkinter-tooltip/actions/workflows/main.yml)
 [![Documentation](https://github.com/gnikit/tkinter-tooltip/actions/workflows/docs.yml/badge.svg)](https://github.com/gnikit/tkinter-tooltip/actions/workflows/docs.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip/badge)](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip)
+[![codecov](https://codecov.io/gh/gnikit/tkinter-tooltip/graph/badge.svg?token=D911RWCBZ5)](https://codecov.io/gh/gnikit/tkinter-tooltip)
 [![PyPI - License](https://img.shields.io/pypi/l/tkinter-tooltip)](https://github.com/gnikit/tkinter-tooltip/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+<!-- [![CodeFactor](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip/badge)](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip) -->
 
 </div>
 
