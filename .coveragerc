@@ -5,9 +5,9 @@ omit =
     tktooltip/_version.py
     tktooltip/demo.py
 
-concurrency = multiprocessing
-parallel = true
-sigterm = true
+# concurrency = multiprocessing
+# parallel = true
+# sigterm = true
 
 [html]
 show_contexts = True
