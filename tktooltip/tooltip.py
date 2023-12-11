@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import time
 import tkinter as tk
-from typing import Callable
+from typing import Any, Callable
 
 # This code is based on Tucker Beck's implementation licensed under an MIT License
 # Original code: http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
@@ -19,14 +19,14 @@ class ToolTip(tk.Toplevel):
     def __init__(
         self,
         widget: tk.Widget,
-        msg: str | Callable = None,
+        msg: str | list[str] | Callable[[], str | list[str]],
         delay: float = 0.0,
         follow: bool = True,
         refresh: float = 1.0,
         x_offset: int = +10,
         y_offset: int = +10,
-        parent_kwargs: dict = {"bg": "black", "padx": 1, "pady": 1},
-        **message_kwargs,
+        parent_kwargs: dict[Any, Any] = {"bg": "black", "padx": 1, "pady": 1},
+        **message_kwargs: Any,
     ):
         """Create a ToolTip. Allows for `**kwargs` to be passed on both
             the parent frame and the ToolTip message
@@ -66,8 +66,15 @@ class ToolTip(tk.Toplevel):
         # StringVar instance for msg string|function
         self.msgVar = tk.StringVar()
         # This can be a string or a function
-        # Do not bother doing any sort of checks here since it sometimes results
-        # into multiple spawn-hide calls being made when swapping between tooltips
+        if not (
+            callable(msg)
+            or (isinstance(msg, str))
+            or (isinstance(msg, list) and all(isinstance(m, str) for m in msg))
+        ):
+            raise TypeError(
+                "Error: ToolTip `msg` must be a string, list of strings or string "
+                + f"returning function instead `msg` of type {type(msg)} was input"
+            )
         self.msg = msg
         self.delay = delay
         self.follow = follow
@@ -125,18 +132,14 @@ class ToolTip(tk.Toplevel):
 
         if self.status == "visible":
             # Update the string with the latest function call
-            # Try and call self.msg as a function, if msg is not callable try and
-            # set it as a normal string if that fails throw an error
-            try:
+            if callable(self.msg):
                 self.msgVar.set(self.msg())
-            except TypeError:
-                # Intentionally do not check if msg is str, can be a list of str
+            # Update the string with the latest string
+            elif isinstance(self.msg, str):
                 self.msgVar.set(self.msg)
-            except:
-                raise (
-                    "Error: ToolTip `msg` must be a string or string returning "
-                    + f"function instead `msg` of type {type(self.msg)} was input"
-                )
+            # Update the string with the latest list
+            elif isinstance(self.msg, list):
+                self.msgVar.set("\n".join(self.msg))
             self.deiconify()
 
             # Recursively call _show to update ToolTip with the newest value of msg

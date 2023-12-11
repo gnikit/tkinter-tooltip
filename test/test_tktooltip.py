@@ -15,18 +15,7 @@ def widget():
     widget.destroy()
 
 
-def test_tooltip_default(widget: tk.Widget):
-    tooltip = ToolTip(widget)
-    assert tooltip.msg is None
-    assert tooltip.delay == 0.0
-    assert tooltip.follow
-    assert tooltip.refresh == 1.0
-    assert tooltip.x_offset == 10
-    assert tooltip.y_offset == 10
-    # assert tooltip.parent_kwargs == {"bg": "black", "padx": 1, "pady": 1}
-
-
-def test_tooltip_custom(widget: tk.Widget):
+def test_tooltip(widget: tk.Widget):
     tooltip = ToolTip(
         widget,
         msg="Test Tooltip",
@@ -49,8 +38,23 @@ def test_tooltip_custom(widget: tk.Widget):
     assert tooltip.y_offset == 20
 
 
+@pytest.mark.parametrize(
+    "msg",
+    [
+        1,
+        (["text 1", 2]),
+    ],
+)
+def test_tooltip_exceptions(
+    widget: tk.Widget,
+    msg: str | list[str] | Callable[[], str | list[str]],
+):
+    with pytest.raises(TypeError):
+        ToolTip(widget, msg=msg)  # type: ignore
+
+
 def test_tooltip_follow(widget: tk.Widget):
-    tooltip = ToolTip(widget, follow=False)
+    tooltip = ToolTip(widget, msg="Test", follow=False)
     widget.event_generate("<Enter>")
     assert not tooltip.follow
 
@@ -65,7 +69,7 @@ def test_tooltip_follow(widget: tk.Widget):
 )
 def test_tooltip_show(
     widget: tk.Widget,
-    msg: str | list[str] | Callable[[], str],
+    msg: str | list[str] | Callable[[], str | list[str]],
 ):
     tooltip = ToolTip(widget, msg=msg)
     assert tooltip.status == "outside"
