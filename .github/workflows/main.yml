@@ -27,10 +27,11 @@ jobs:
       - name: Unittests
         uses: coactions/setup-xvfb@v1
         with:
-          run: pytest
+          run: coverage run -m pytest
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
           fail_ci_if_error: true
