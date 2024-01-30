@@ -86,7 +86,12 @@ class ToolTip(tk.Toplevel):
         self.status = "outside"
         self.last_moved = 0
         # use Message widget to host ToolTip
-        tk.Message(self, textvariable=self.msgVar, aspect=1000, **message_kwargs).grid()
+        self.message_widget = tk.Message(
+            self,
+            textvariable=self.msgVar,
+            **message_kwargs,
+        )
+        self.message_widget.grid()
         # Add bindings to the widget without overriding the existing ones
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
