@@ -121,10 +121,7 @@ class ToolTip(tk.Toplevel):
         Processes motion within the widget including entering and moving.
         """
         self.last_moved = time.time()
-
-        # Set the status as inside for the very first time
-        if self.status == ToolTipStatus.OUTSIDE:
-            self.status = ToolTipStatus.INSIDE
+        self.status = ToolTipStatus.INSIDE
 
         # Offsets the ToolTip using the coordinates od an event as an origin
         self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
