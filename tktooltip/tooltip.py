@@ -106,7 +106,6 @@ class ToolTip(tk.Toplevel):
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
         self.widget.bind("<Motion>", self.on_enter, add="+")
-        self.widget.bind("<ButtonPress>", self.on_leave, add="+")
 
     def on_enter(self, event) -> None:
         """
