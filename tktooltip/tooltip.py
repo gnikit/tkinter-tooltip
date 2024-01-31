@@ -138,6 +138,16 @@ class ToolTip(tk.Toplevel):
         self.status = ToolTipStatus.OUTSIDE
         self.withdraw()
 
+    def _update_message(self) -> None:
+        """Update the message displayed in the tooltip."""
+        if callable(self.msg):
+            self.msg_var.set(self.msg())
+        elif isinstance(self.msg, str):
+            self.msg_var.set(self.msg)
+        elif isinstance(self.msg, list):
+            self.msg_var.set("\n".join(self.msg))
+        # TODO: throw exception if none of the above
+
     def _show(self) -> None:
         """
         Displays the ToolTip.
@@ -151,15 +161,7 @@ class ToolTip(tk.Toplevel):
             self.status = ToolTipStatus.VISIBLE
 
         if self.status == ToolTipStatus.VISIBLE:
-            # Update the string with the latest function call
-            if callable(self.msg):
-                self.msg_var.set(self.msg())
-            # Update the string with the latest string
-            elif isinstance(self.msg, str):
-                self.msg_var.set(self.msg)
-            # Update the string with the latest list
-            elif isinstance(self.msg, list):
-                self.msg_var.set("\n".join(self.msg))
+            self._update_message()
             self.deiconify()
 
             # Recursively call _show to update ToolTip with the newest value of msg
