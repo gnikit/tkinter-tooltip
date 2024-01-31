@@ -68,7 +68,7 @@ class ToolTip(tk.Toplevel):
         self.overrideredirect(True)
 
         # StringVar instance for msg string|function
-        self.msgVar = tk.StringVar()
+        self.msg_var = tk.StringVar()
         # This can be a string or a function
         if not (
             callable(msg)
@@ -92,15 +92,21 @@ class ToolTip(tk.Toplevel):
         self.message_kwargs: dict = message_kwargs or self.DEFAULT_MESSAGE_KWARGS
         self.message_widget = tk.Message(
             self,
-            textvariable=self.msgVar,
+            textvariable=self.msg_var,
             **self.message_kwargs,
         )
         self.message_widget.grid()
-        # Add bindings to the widget without overriding the existing ones
+
+        self._init_bindings()
+
+    def _init_bindings(self) -> None:
+        """
+        Initialise the bindings for the ToolTip without overriding the existing ones.
+        """
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
-        self.widget.bind("<Motion>", self.on_enter, add="+")
-        self.widget.bind("<ButtonPress>", self.on_leave, add="+")
+        if self.follow:
+            self.widget.bind("<Motion>", self.on_enter, add="+")
 
     def on_enter(self, event) -> None:
         """
@@ -111,12 +117,6 @@ class ToolTip(tk.Toplevel):
         # Set the status as inside for the very first time
         if self.status == "outside":
             self.status = "inside"
-
-        # If the follow flag is not set, motion within the widget will
-        # make the ToolTip dissapear
-        if not self.follow:
-            self.status = "inside"
-            self.withdraw()
 
         # Offsets the ToolTip using the coordinates od an event as an origin
         self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
@@ -143,13 +143,13 @@ class ToolTip(tk.Toplevel):
         if self.status == "visible":
             # Update the string with the latest function call
             if callable(self.msg):
-                self.msgVar.set(self.msg())
+                self.msg_var.set(self.msg())
             # Update the string with the latest string
             elif isinstance(self.msg, str):
-                self.msgVar.set(self.msg)
+                self.msg_var.set(self.msg)
             # Update the string with the latest list
             elif isinstance(self.msg, list):
-                self.msgVar.set("\n".join(self.msg))
+                self.msg_var.set("\n".join(self.msg))
             self.deiconify()
 
             # Recursively call _show to update ToolTip with the newest value of msg
