@@ -96,7 +96,13 @@ class ToolTip(tk.Toplevel):
             **self.message_kwargs,
         )
         self.message_widget.grid()
-        # Add bindings to the widget without overriding the existing ones
+
+        self._init_bindings()
+
+    def _init_bindings(self) -> None:
+        """
+        Initialise the bindings for the ToolTip without overriding the existing ones.
+        """
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
         self.widget.bind("<Motion>", self.on_enter, add="+")
