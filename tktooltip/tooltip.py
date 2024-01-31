@@ -115,7 +115,7 @@ class ToolTip(tk.Toplevel):
         if self.follow:
             self.widget.bind("<Motion>", self.on_enter, add="+")
 
-    def on_enter(self, event) -> None:
+    def on_enter(self, event: tk.Event) -> None:
         """
         Processes motion within the widget including entering and moving.
         """
@@ -131,7 +131,7 @@ class ToolTip(tk.Toplevel):
         # Time is integer and in milliseconds
         self.after(int(self.delay * 1000), self._show)
 
-    def on_leave(self, event=None) -> None:
+    def on_leave(self, event: tk.Event | None = None) -> None:
         """
         Hides the ToolTip.
         """
