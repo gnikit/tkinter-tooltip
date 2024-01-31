@@ -1,5 +1,6 @@
 import re
 import tkinter as tk
+from pathlib import Path
 from tkinter import ttk
 
 import sv_ttk
@@ -20,7 +21,7 @@ class App(ttk.Frame):
 
     def setup_widgets(self):
         self.color = "0,0,0"  # Default color to replace (it's black)
-        img = "tooltip_logo.png"  # image name to loads
+        img = Path(__file__).parent / "tooltip_logo.png"  # image name to loads
         self.img = Image.open(img).resize((100, 100))  # Load and scale image
         self.img_tk = ImageTk.PhotoImage(self.img)  # Store to stop garbage collection
         self.img_label = ttk.Label(self, image=self.img_tk)  # Create label with image

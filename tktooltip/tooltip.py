@@ -17,6 +17,9 @@ class ToolTip(tk.Toplevel):
     Creates a ToolTip (pop-up) widget for tkinter
     """
 
+    DEFAULT_PARENT_KWARGS = {"bg": "black", "padx": 1, "pady": 1}
+    DEFAULT_MESSAGE_KWARGS = {"aspect": 1000}
+
     def __init__(
         self,
         widget: tk.Widget,
@@ -26,7 +29,7 @@ class ToolTip(tk.Toplevel):
         refresh: float = 1.0,
         x_offset: int = +10,
         y_offset: int = +10,
-        parent_kwargs: dict[Any, Any] = {"bg": "black", "padx": 1, "pady": 1},
+        parent_kwargs: dict | None = None,
         **message_kwargs: Any,
     ):
         """Create a ToolTip. Allows for `**kwargs` to be passed on both
@@ -59,7 +62,7 @@ class ToolTip(tk.Toplevel):
         self.widget = widget
         # ToolTip should have the same parent as the widget unless stated
         # otherwise in the `parent_kwargs`
-        tk.Toplevel.__init__(self, **parent_kwargs)
+        tk.Toplevel.__init__(self, **(parent_kwargs or self.DEFAULT_PARENT_KWARGS))
         self.withdraw()  # Hide initially in case there is a delay
         # Disable ToolTip's title bar
         self.overrideredirect(True)
@@ -86,7 +89,13 @@ class ToolTip(tk.Toplevel):
         self.status = "outside"
         self.last_moved = 0
         # use Message widget to host ToolTip
-        tk.Message(self, textvariable=self.msgVar, aspect=1000, **message_kwargs).grid()
+        self.message_kwargs: dict = message_kwargs or self.DEFAULT_MESSAGE_KWARGS
+        self.message_widget = tk.Message(
+            self,
+            textvariable=self.msgVar,
+            **self.message_kwargs,
+        )
+        self.message_widget.grid()
         # Add bindings to the widget without overriding the existing ones
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
