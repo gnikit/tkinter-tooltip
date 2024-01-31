@@ -68,7 +68,7 @@ class ToolTip(tk.Toplevel):
         self.overrideredirect(True)
 
         # StringVar instance for msg string|function
-        self.msgVar = tk.StringVar()
+        self.msg_var = tk.StringVar()
         # This can be a string or a function
         if not (
             callable(msg)
@@ -92,7 +92,7 @@ class ToolTip(tk.Toplevel):
         self.message_kwargs: dict = message_kwargs or self.DEFAULT_MESSAGE_KWARGS
         self.message_widget = tk.Message(
             self,
-            textvariable=self.msgVar,
+            textvariable=self.msg_var,
             **self.message_kwargs,
         )
         self.message_widget.grid()
@@ -148,13 +148,13 @@ class ToolTip(tk.Toplevel):
         if self.status == "visible":
             # Update the string with the latest function call
             if callable(self.msg):
-                self.msgVar.set(self.msg())
+                self.msg_var.set(self.msg())
             # Update the string with the latest string
             elif isinstance(self.msg, str):
-                self.msgVar.set(self.msg)
+                self.msg_var.set(self.msg)
             # Update the string with the latest list
             elif isinstance(self.msg, list):
-                self.msgVar.set("\n".join(self.msg))
+                self.msg_var.set("\n".join(self.msg))
             self.deiconify()
 
             # Recursively call _show to update ToolTip with the newest value of msg
