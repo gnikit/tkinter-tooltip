@@ -105,7 +105,8 @@ class ToolTip(tk.Toplevel):
         """
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
-        self.widget.bind("<Motion>", self.on_enter, add="+")
+        if self.follow:
+            self.widget.bind("<Motion>", self.on_enter, add="+")
 
     def on_enter(self, event) -> None:
         """
@@ -116,12 +117,6 @@ class ToolTip(tk.Toplevel):
         # Set the status as inside for the very first time
         if self.status == "outside":
             self.status = "inside"
-
-        # If the follow flag is not set, motion within the widget will
-        # make the ToolTip dissapear
-        if not self.follow:
-            self.status = "inside"
-            self.withdraw()
 
         # Offsets the ToolTip using the coordinates od an event as an origin
         self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
