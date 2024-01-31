@@ -26,6 +26,7 @@ class ToolTip(tk.Toplevel):
 
     DEFAULT_PARENT_KWARGS = {"bg": "black", "padx": 1, "pady": 1}
     DEFAULT_MESSAGE_KWARGS = {"aspect": 1000}
+    S_TO_MS = 1000
 
     def __init__(
         self,
@@ -128,8 +129,7 @@ class ToolTip(tk.Toplevel):
         # Offsets the ToolTip using the coordinates od an event as an origin
         self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
 
-        # Time is integer and in milliseconds
-        self.after(int(self.delay * 1000), self._show)
+        self.after(int(self.delay * self.S_TO_MS), self._show)
 
     def on_leave(self, event: tk.Event | None = None) -> None:
         """
@@ -167,4 +167,4 @@ class ToolTip(tk.Toplevel):
             # Recursively call _show to update ToolTip with the newest value of msg
             # This is a race condition which only exits when upon a binding change
             # that in turn changes the `status` to outside
-            self.after(int(self.refresh * 1000), self._show)
+            self.after(int(self.refresh * self.S_TO_MS), self._show)
