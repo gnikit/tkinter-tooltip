@@ -13,10 +13,11 @@ Features:
     - Theme-aware tooltips and fully customisable
 """
 
-from .tooltip import ToolTip
+from .tooltip import ToolTip, ToolTipStatus
 from .version import __version__
 
 __all__ = [
     "ToolTip",
+    "ToolTipStatus",
     "__version__",
 ]

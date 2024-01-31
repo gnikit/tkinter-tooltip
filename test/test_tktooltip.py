@@ -3,7 +3,7 @@ from typing import Callable
 
 import pytest
 
-from tktooltip import ToolTip
+from tktooltip import ToolTip, ToolTipStatus
 
 
 @pytest.fixture()
@@ -72,10 +72,10 @@ def test_tooltip_show(
     msg: str | list[str] | Callable[[], str | list[str]],
 ):
     tooltip = ToolTip(widget, msg=msg)
-    assert tooltip.status == "outside"
+    assert tooltip.status == ToolTipStatus.OUTSIDE
     widget.event_generate("<Enter>")
-    assert tooltip.status == "inside"
+    assert tooltip.status == ToolTipStatus.INSIDE
     tooltip._show()
-    assert tooltip.status == "visible"
+    assert tooltip.status == ToolTipStatus.VISIBLE
     widget.event_generate("<Leave>")
-    assert tooltip.status == "outside"
+    assert tooltip.status == ToolTipStatus.OUTSIDE

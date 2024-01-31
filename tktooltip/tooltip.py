@@ -4,12 +4,19 @@ Module defining the ToolTip widget
 
 from __future__ import annotations
 
+from enum import Enum, auto
 import time
 import tkinter as tk
 from typing import Any, Callable
 
 # This code is based on Tucker Beck's implementation licensed under an MIT License
 # Original code: http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
+
+
+class ToolTipStatus(Enum):
+    OUTSIDE = auto()
+    INSIDE = auto()
+    VISIBLE = auto()
 
 
 class ToolTip(tk.Toplevel):
@@ -86,7 +93,7 @@ class ToolTip(tk.Toplevel):
         self.x_offset = x_offset
         self.y_offset = y_offset
         # visibility status of the ToolTip inside|outside|visible
-        self.status = "outside"
+        self.status = ToolTipStatus.OUTSIDE
         self.last_moved = 0
         # use Message widget to host ToolTip
         self.message_kwargs: dict = message_kwargs or self.DEFAULT_MESSAGE_KWARGS
@@ -115,8 +122,8 @@ class ToolTip(tk.Toplevel):
         self.last_moved = time.time()
 
         # Set the status as inside for the very first time
-        if self.status == "outside":
-            self.status = "inside"
+        if self.status == ToolTipStatus.OUTSIDE:
+            self.status = ToolTipStatus.INSIDE
 
         # Offsets the ToolTip using the coordinates od an event as an origin
         self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
@@ -128,7 +135,7 @@ class ToolTip(tk.Toplevel):
         """
         Hides the ToolTip.
         """
-        self.status = "outside"
+        self.status = ToolTipStatus.OUTSIDE
         self.withdraw()
 
     def _show(self) -> None:
@@ -137,10 +144,13 @@ class ToolTip(tk.Toplevel):
 
         Recursively queues `_show` in the scheduler every `self.refresh` seconds
         """
-        if self.status == "inside" and time.time() - self.last_moved > self.delay:
-            self.status = "visible"
+        if (
+            self.status == ToolTipStatus.INSIDE
+            and time.time() - self.last_moved > self.delay
+        ):
+            self.status = ToolTipStatus.VISIBLE
 
-        if self.status == "visible":
+        if self.status == ToolTipStatus.VISIBLE:
             # Update the string with the latest function call
             if callable(self.msg):
                 self.msg_var.set(self.msg())
