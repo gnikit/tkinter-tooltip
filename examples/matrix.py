@@ -4,7 +4,7 @@ import tkinter.ttk as ttk
 from itertools import product
 from tkinter import font as tkFont
 
-from tooltip import ToolTip
+from tktooltip import ToolTip
 
 
 def custom_font(frame, **kwargs):
