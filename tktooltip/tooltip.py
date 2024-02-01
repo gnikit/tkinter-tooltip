@@ -4,9 +4,9 @@ Module defining the ToolTip widget
 
 from __future__ import annotations
 
-from enum import Enum, auto
 import time
 import tkinter as tk
+from enum import Enum, auto
 from typing import Any, Callable
 
 # This code is based on Tucker Beck's implementation licensed under an MIT License
