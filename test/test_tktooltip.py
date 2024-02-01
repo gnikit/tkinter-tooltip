@@ -63,6 +63,7 @@ def test_tooltip_follow(widget: tk.Widget):
     "msg",
     [
         (lambda: "Callable Tooltip"),
+        (lambda: ["Callable Tooltip 1", "Callable Tooltip 2"]),
         "text",
         (["text 1", "text 2"]),
     ],

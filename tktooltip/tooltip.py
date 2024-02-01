@@ -77,17 +77,8 @@ class ToolTip(tk.Toplevel):
 
         # StringVar instance for msg string|function
         self.msg_var = tk.StringVar()
-        # This can be a string or a function
-        if not (
-            callable(msg)
-            or (isinstance(msg, str))
-            or (isinstance(msg, list) and all(isinstance(m, str) for m in msg))
-        ):
-            raise TypeError(
-                "Error: ToolTip `msg` must be a string, list of strings or string "
-                + f"returning function instead `msg` of type {type(msg)} was input"
-            )
         self.msg = msg
+        self._update_message()
         self.delay = delay
         self.follow = follow
         self.refresh = refresh
@@ -141,12 +132,19 @@ class ToolTip(tk.Toplevel):
     def _update_message(self) -> None:
         """Update the message displayed in the tooltip."""
         if callable(self.msg):
-            self.msg_var.set(self.msg())
+            msg = self.msg()
+            if isinstance(msg, list):
+                msg = "\n".join(msg)
         elif isinstance(self.msg, str):
-            self.msg_var.set(self.msg)
+            msg = self.msg
         elif isinstance(self.msg, list):
-            self.msg_var.set("\n".join(self.msg))
-        # TODO: throw exception if none of the above
+            msg = "\n".join(self.msg)
+        else:
+            raise TypeError(
+                f"ToolTip `msg` must be a string, list of strings, or a "
+                f"callable returning them, not {type(self.msg)}."
+            )
+        self.msg_var.set(msg)
 
     def _show(self) -> None:
         """
