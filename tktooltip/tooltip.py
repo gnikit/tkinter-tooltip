@@ -114,7 +114,7 @@ class ToolTip(tk.Toplevel):
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
         if self.follow:
-            self.widget.bind("<Motion>", self.on_enter, add="+")
+            self.widget.bind("<Motion>", self._update_tooltip_coords, add="+")
 
     def on_enter(self, event: tk.Event) -> None:
         """
@@ -122,10 +122,7 @@ class ToolTip(tk.Toplevel):
         """
         self.last_moved = time.time()
         self.status = ToolTipStatus.INSIDE
-
-        # Offsets the ToolTip using the coordinates od an event as an origin
-        self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
-
+        self._update_tooltip_coords(event)
         self.after(int(self.delay * self.S_TO_MS), self._show)
 
     def on_leave(self, event: tk.Event | None = None) -> None:
@@ -134,6 +131,12 @@ class ToolTip(tk.Toplevel):
         """
         self.status = ToolTipStatus.OUTSIDE
         self.withdraw()
+
+    def _update_tooltip_coords(self, event: tk.Event) -> None:
+        """
+        Updates the ToolTip's position.
+        """
+        self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
 
     def _update_message(self) -> None:
         """Update the message displayed in the tooltip."""
