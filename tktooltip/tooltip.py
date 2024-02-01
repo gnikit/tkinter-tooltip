@@ -6,10 +6,17 @@ from __future__ import annotations
 
 import time
 import tkinter as tk
+from enum import Enum, auto
 from typing import Any, Callable
 
 # This code is based on Tucker Beck's implementation licensed under an MIT License
 # Original code: http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
+
+
+class ToolTipStatus(Enum):
+    OUTSIDE = auto()
+    INSIDE = auto()
+    VISIBLE = auto()
 
 
 class ToolTip(tk.Toplevel):
@@ -19,6 +26,7 @@ class ToolTip(tk.Toplevel):
 
     DEFAULT_PARENT_KWARGS = {"bg": "black", "padx": 1, "pady": 1}
     DEFAULT_MESSAGE_KWARGS = {"aspect": 1000}
+    S_TO_MS = 1000
 
     def __init__(
         self,
@@ -86,7 +94,7 @@ class ToolTip(tk.Toplevel):
         self.x_offset = x_offset
         self.y_offset = y_offset
         # visibility status of the ToolTip inside|outside|visible
-        self.status = "outside"
+        self.status = ToolTipStatus.OUTSIDE
         self.last_moved = 0
         # use Message widget to host ToolTip
         self.message_kwargs: dict = message_kwargs or self.DEFAULT_MESSAGE_KWARGS
@@ -108,28 +116,34 @@ class ToolTip(tk.Toplevel):
         if self.follow:
             self.widget.bind("<Motion>", self.on_enter, add="+")
 
-    def on_enter(self, event) -> None:
+    def on_enter(self, event: tk.Event) -> None:
         """
         Processes motion within the widget including entering and moving.
         """
         self.last_moved = time.time()
-
-        # Set the status as inside for the very first time
-        if self.status == "outside":
-            self.status = "inside"
+        self.status = ToolTipStatus.INSIDE
 
         # Offsets the ToolTip using the coordinates od an event as an origin
         self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
 
-        # Time is integer and in milliseconds
-        self.after(int(self.delay * 1000), self._show)
+        self.after(int(self.delay * self.S_TO_MS), self._show)
 
-    def on_leave(self, event=None) -> None:
+    def on_leave(self, event: tk.Event | None = None) -> None:
         """
         Hides the ToolTip.
         """
-        self.status = "outside"
+        self.status = ToolTipStatus.OUTSIDE
         self.withdraw()
+
+    def _update_message(self) -> None:
+        """Update the message displayed in the tooltip."""
+        if callable(self.msg):
+            self.msg_var.set(self.msg())
+        elif isinstance(self.msg, str):
+            self.msg_var.set(self.msg)
+        elif isinstance(self.msg, list):
+            self.msg_var.set("\n".join(self.msg))
+        # TODO: throw exception if none of the above
 
     def _show(self) -> None:
         """
@@ -137,22 +151,17 @@ class ToolTip(tk.Toplevel):
 
         Recursively queues `_show` in the scheduler every `self.refresh` seconds
         """
-        if self.status == "inside" and time.time() - self.last_moved > self.delay:
-            self.status = "visible"
+        if (
+            self.status == ToolTipStatus.INSIDE
+            and time.time() - self.last_moved > self.delay
+        ):
+            self.status = ToolTipStatus.VISIBLE
 
-        if self.status == "visible":
-            # Update the string with the latest function call
-            if callable(self.msg):
-                self.msg_var.set(self.msg())
-            # Update the string with the latest string
-            elif isinstance(self.msg, str):
-                self.msg_var.set(self.msg)
-            # Update the string with the latest list
-            elif isinstance(self.msg, list):
-                self.msg_var.set("\n".join(self.msg))
+        if self.status == ToolTipStatus.VISIBLE:
+            self._update_message()
             self.deiconify()
 
             # Recursively call _show to update ToolTip with the newest value of msg
             # This is a race condition which only exits when upon a binding change
             # that in turn changes the `status` to outside
-            self.after(int(self.refresh * 1000), self._show)
+            self.after(int(self.refresh * self.S_TO_MS), self._show)
