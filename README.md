@@ -7,6 +7,7 @@
 [![codecov](https://codecov.io/gh/gnikit/tkinter-tooltip/graph/badge.svg?token=D911RWCBZ5)](https://codecov.io/gh/gnikit/tkinter-tooltip)
 [![PyPI - License](https://img.shields.io/pypi/l/tkinter-tooltip)](https://github.com/gnikit/tkinter-tooltip/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 <!-- [![CodeFactor](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip/badge)](https://www.codefactor.io/repository/github/gnikit/tkinter-tooltip) -->
 
 </div>
@@ -149,6 +150,13 @@ ToolTip(b, msg="Hover info", delay=0,
         fg="#ffffff", bg="#1c1c1c", padx=10, pady=10)
 app.mainloop()
 ```
+
+## Notes
+
+- Certain options do not match great with each other, a good example is `follow`
+  and `delay` using small x/y offsets. This can cause the tooltip to appear
+  inside the widget. Hovering over the tooltip will cause it to disappear and
+  reappear, in a new position, potentially again inside the widget.
 
 ## Contributing
 
