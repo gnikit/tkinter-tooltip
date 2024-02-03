@@ -80,3 +80,14 @@ def test_tooltip_show(
     assert tooltip.status == ToolTipStatus.VISIBLE
     widget.event_generate("<Leave>")
     assert tooltip.status == ToolTipStatus.OUTSIDE
+
+
+def test_tooltip_destroy(widget: tk.Widget):
+    tooltip = ToolTip(widget, msg="Test")
+    widget.event_generate("<Enter>")
+    assert tooltip.status == ToolTipStatus.INSIDE
+    tooltip._show()
+    assert tooltip.status == ToolTipStatus.VISIBLE
+    tooltip.destroy()
+    print(tooltip.bindigs)
+    assert tooltip.bindigs == []
