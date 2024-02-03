@@ -104,6 +104,7 @@ class ToolTip(tk.Toplevel):
         """
         self.widget.bind("<Enter>", self.on_enter, add="+")
         self.widget.bind("<Leave>", self.on_leave, add="+")
+        self.widget.bind("<ButtonPress>", self.on_leave, add="+")
         if self.follow:
             self.widget.bind("<Motion>", self._update_tooltip_coords, add="+")
 
