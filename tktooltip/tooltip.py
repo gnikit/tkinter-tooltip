@@ -8,6 +8,7 @@ import time
 import tkinter as tk
 from enum import Enum, auto
 from typing import Any, Callable
+from contextlib import suppress
 
 # This code is based on Tucker Beck's implementation licensed under an MIT License
 # Original code: http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
@@ -17,6 +18,16 @@ class ToolTipStatus(Enum):
     OUTSIDE = auto()
     INSIDE = auto()
     VISIBLE = auto()
+
+
+class Binding:
+    def __init__(self, widget: tk.Widget, binding_name: str, functor: Callable) -> None:
+        self._widget = widget
+        self._name: str = binding_name
+        self._id: str = self._widget.bind(binding_name, functor, add="+")
+
+    def unbind(self) -> None:
+        self._widget.unbind(self._name, self._id)
 
 
 class ToolTip(tk.Toplevel):
@@ -95,18 +106,28 @@ class ToolTip(tk.Toplevel):
             **self.message_kwargs,
         )
         self.message_widget.grid()
+        self.bindigs = self._init_bindings()
 
-        self._init_bindings()
-
-    def _init_bindings(self) -> None:
-        """
-        Initialise the bindings for the ToolTip without overriding the existing ones.
-        """
-        self.widget.bind("<Enter>", self.on_enter, add="+")
-        self.widget.bind("<Leave>", self.on_leave, add="+")
-        self.widget.bind("<ButtonPress>", self.on_leave, add="+")
+    def _init_bindings(self) -> list[Binding]:
+        """Initialize the bindings."""
+        bindings = [
+            Binding(self.widget, "<Enter>", self.on_enter),
+            Binding(self.widget, "<Leave>", self.on_leave),
+            Binding(self.widget, "<ButtonPress>", self.on_leave),
+        ]
         if self.follow:
-            self.widget.bind("<Motion>", self._update_tooltip_coords, add="+")
+            bindings.append(
+                Binding(self.widget, "<Motion>", self._update_tooltip_coords)
+            )
+        return bindings
+
+    def destroy(self) -> None:
+        """Destroy the ToolTip and unbind all the bindings."""
+        with suppress(tk.TclError):
+            for b in self.bindigs:
+                b.unbind()
+            self.bindigs.clear()
+            super().destroy()
 
     def on_enter(self, event: tk.Event) -> None:
         """
