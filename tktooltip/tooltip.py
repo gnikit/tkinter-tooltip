@@ -99,7 +99,8 @@ class ToolTip(tk.Toplevel):
         self.status = ToolTipStatus.OUTSIDE
         self.last_moved = 0
         # use Message widget to host ToolTip
-        self.message_kwargs: dict = message_kwargs or self.DEFAULT_MESSAGE_KWARGS
+        self.message_kwargs: dict = self.DEFAULT_MESSAGE_KWARGS.copy()
+        self.message_kwargs.update(message_kwargs)
         self.message_widget = tk.Message(
             self,
             textvariable=self.msg_var,
