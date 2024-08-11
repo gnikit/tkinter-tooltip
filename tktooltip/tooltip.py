@@ -135,7 +135,7 @@ class ToolTip(tk.Toplevel):
         """Hides (aka. disables) the ToolTip."""
         self._hidden = True
         self.withdraw()
-    
+
     def show(self) -> None:
         """Enables the ToolTip after previously hiding (disabling) it.
         
