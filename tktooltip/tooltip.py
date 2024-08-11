@@ -138,9 +138,9 @@ class ToolTip(tk.Toplevel):
 
     def show(self) -> None:
         """Enables the ToolTip after previously hiding (disabling) it.
-        
+
         This does not immediately show the tooltip, but
-        rather allows the tooltip to be shown when appropriate (i.e. on 
+        rather allows the tooltip to be shown when appropriate (i.e. on
         next enter). If appropriate, the tooltip is shown immediately
         """
         self._hidden = False
