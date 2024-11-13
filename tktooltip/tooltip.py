@@ -87,6 +87,8 @@ class ToolTip(tk.Toplevel):
         self.withdraw()  # Hide initially in case there is a delay
         # Disable ToolTip's title bar
         self.overrideredirect(True)
+        # Mkae ToolTip topmost to display over taskbar
+        self.attributes("-topmost", True)
 
         # StringVar instance for msg string|function
         self.msg_var = tk.StringVar()
@@ -166,13 +168,17 @@ class ToolTip(tk.Toplevel):
                 monitor.x <= event.x_root < monitor.x + monitor.width
                 and monitor.y <= event.y_root < monitor.y + monitor.height
             ):
-                # flip tooltip if it exceedes the monitor's boundaries
-                if w_right > monitor.x + monitor.width:
+                # move tooltip left if it exceedes the monitor's right boundary
+                if w_right >= monitor.x + monitor.width:
                     w_left = (
-                        event.x_root - self.x_offset - self.message_widget.winfo_width()
+                        monitor.x
+                        + monitor.width
+                        - self.message_widget.winfo_width()
+                        - 2
                     )
 
-                if w_bottom > monitor.y + monitor.height:
+                # flip tooltip if it exceedes the monitor's bottom boundary
+                if w_bottom >= monitor.y + monitor.height:
                     w_top = (
                         event.y_root
                         - self.y_offset
