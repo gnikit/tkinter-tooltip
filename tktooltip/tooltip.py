@@ -97,7 +97,7 @@ class ToolTip(tk.Toplevel):
         self.y_offset = y_offset
         # visibility status of the ToolTip inside|outside|visible
         self.status = ToolTipStatus.OUTSIDE
-        self.last_moved = 0
+        self.last_moved = 0.0
         # use Message widget to host ToolTip
         self.message_kwargs: dict = self.DEFAULT_MESSAGE_KWARGS.copy()
         self.message_kwargs.update(message_kwargs)
