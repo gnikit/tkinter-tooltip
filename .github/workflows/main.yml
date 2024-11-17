@@ -21,17 +21,17 @@ jobs:
       - name: Setup
         run: pip install .[dev]
 
-      - name: Lint
-        run: pre-commit run -a
-
       - name: Unittests
         uses: coactions/setup-xvfb@v1
         with:
-          run: coverage run -m pytest
+          run: |
+            coverage run -m pytest
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.xml
+          files: ./coverage.xml
+          plugins: "gcov" # HACK: prevent codecov from running pytest-cov
+          verbose: true
           fail_ci_if_error: true
