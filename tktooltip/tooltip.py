@@ -177,7 +177,7 @@ class ToolTip(tk.Toplevel):
         """
         if (
             self.status == ToolTipStatus.INSIDE
-            and time.time() - self.last_moved > self.delay
+            and time.time() - self.last_moved >= self.delay
         ):
             self.status = ToolTipStatus.VISIBLE
 
