@@ -102,7 +102,7 @@ class ToolTip(tk.Toplevel):
         self.y_offset = y_offset if y_offset > 0 else 2
         # visibility status of the ToolTip inside|outside|visible
         self.status = ToolTipStatus.OUTSIDE
-        self.last_moved = 0
+        self.last_moved = 0.0
         # use Message widget to host ToolTip
         self.message_kwargs: dict = self.DEFAULT_MESSAGE_KWARGS.copy()
         self.message_kwargs.update(message_kwargs)
@@ -140,7 +140,7 @@ class ToolTip(tk.Toplevel):
         """
         Processes motion within the widget including entering and moving.
         """
-        self.last_moved = time.time()
+        self.last_moved = time.perf_counter()
         self.status = ToolTipStatus.INSIDE
         self._update_tooltip_coords(event)
         self.after(int(self.delay * self.S_TO_MS), self._show)
@@ -214,7 +214,7 @@ class ToolTip(tk.Toplevel):
         """
         if (
             self.status == ToolTipStatus.INSIDE
-            and time.time() - self.last_moved > self.delay
+            and time.perf_counter() - self.last_moved >= self.delay
         ):
             self.status = ToolTipStatus.VISIBLE
 
