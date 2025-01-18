@@ -46,6 +46,7 @@ class ToolTip(tk.Toplevel):
         msg: str | list[str] | Callable[[], str | list[str]],
         delay: float = 0.0,
         follow: bool = True,
+        animations: bool = True,
         refresh: float = 1.0,
         x_offset: int = +10,
         y_offset: int = +10,
@@ -67,6 +68,9 @@ class ToolTip(tk.Toplevel):
             Delay in seconds before the ToolTip appears, by default 0.0
         follow : `bool`, optional
             ToolTip follows motion, otherwise hides, by default True
+        animations : `bool`, optional
+            ToolTip fades in when showing and fades out when hiding, by default True.
+            This requires a compositing window manager on Linux to have any effect.
         refresh : `float`, optional
             Refresh rate in seconds for strings and functions when mouse is
             stationary and inside the widget, by default 1.0
@@ -93,6 +97,7 @@ class ToolTip(tk.Toplevel):
         self._update_message()
         self.delay = delay
         self.follow = follow
+        self.animations = animations
         self.refresh = refresh
         self.x_offset = x_offset
         self.y_offset = y_offset
@@ -155,7 +160,10 @@ class ToolTip(tk.Toplevel):
 
             self.withdraw()
 
-        threading.Thread(target=animation, daemon=True).start()
+        if self.animations:
+            threading.Thread(target=animation, daemon=True).start()
+        else:
+            self.withdraw()
 
     def _update_tooltip_coords(self, event: tk.Event) -> None:
         """
@@ -213,7 +221,8 @@ class ToolTip(tk.Toplevel):
 
                     self.is_shown = True
 
-            threading.Thread(target=animation, daemon=True).start()
+            if self.animations:
+                threading.Thread(target=animation, daemon=True).start()
 
             # Recursively call _show to update ToolTip with the newest value of msg
             # This is a race condition which only exits when upon a binding change
