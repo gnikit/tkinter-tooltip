@@ -156,6 +156,7 @@ class ToolTip(tk.Toplevel):
 
             for i in range(11):
                 self.wm_attributes("-alpha", 0.1 * (10 - i))
+                self.update()
                 time.sleep(0.01)
 
             self.withdraw()
@@ -217,6 +218,7 @@ class ToolTip(tk.Toplevel):
 
                     for i in range(11):
                         self.wm_attributes("-alpha", 0.1 * i)
+                        self.update()
                         time.sleep(0.01)
 
                     self.is_shown = True
