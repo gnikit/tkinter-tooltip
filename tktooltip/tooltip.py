@@ -4,6 +4,7 @@ Module defining the ToolTip widget
 
 from __future__ import annotations
 
+import threading
 import time
 import tkinter as tk
 from contextlib import suppress
@@ -144,7 +145,17 @@ class ToolTip(tk.Toplevel):
         Hides the ToolTip.
         """
         self.status = ToolTipStatus.OUTSIDE
-        self.withdraw()
+
+        def animation():
+            self.wm_attributes("-alpha", 1)
+
+            for i in range(11):
+                self.wm_attributes("-alpha", 0.1 * (10 - i))
+                time.sleep(0.01)
+
+            self.withdraw()
+
+        threading.Thread(target=animation, daemon=True).start()
 
     def _update_tooltip_coords(self, event: tk.Event) -> None:
         """
@@ -179,11 +190,24 @@ class ToolTip(tk.Toplevel):
             self.status == ToolTipStatus.INSIDE
             and time.perf_counter() - self.last_moved >= self.delay
         ):
+            self.is_shown = False
             self.status = ToolTipStatus.VISIBLE
 
         if self.status == ToolTipStatus.VISIBLE:
             self._update_message()
             self.deiconify()
+
+            def animation():
+                if not self.is_shown:
+                    self.wm_attributes("-alpha", 0)
+
+                    for i in range(11):
+                        self.wm_attributes("-alpha", 0.1 * i)
+                        time.sleep(0.01)
+
+                    self.is_shown = True
+
+            threading.Thread(target=animation, daemon=True).start()
 
             # Recursively call _show to update ToolTip with the newest value of msg
             # This is a race condition which only exits when upon a binding change
