@@ -223,6 +223,8 @@ class ToolTip(tk.Toplevel):
 
             if self.animations:
                 threading.Thread(target=animation, daemon=True).start()
+            else:
+                self.is_shown = True
 
             # Recursively call _show to update ToolTip with the newest value of msg
             # This is a race condition which only exits when upon a binding change
