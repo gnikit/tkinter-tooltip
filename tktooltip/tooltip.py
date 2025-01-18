@@ -197,6 +197,12 @@ class ToolTip(tk.Toplevel):
             self._update_message()
             self.deiconify()
 
+            if not self.is_shown:
+                x_pos = self.x_offset + self.winfo_pointerx()
+                y_pos = self.y_offset + self.winfo_pointery()
+
+                self.geometry(f"+{x_pos}+{y_pos}")
+
             def animation():
                 if not self.is_shown:
                     self.wm_attributes("-alpha", 0)
