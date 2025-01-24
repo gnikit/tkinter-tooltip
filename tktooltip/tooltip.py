@@ -4,6 +4,7 @@ Module defining the ToolTip widget
 
 from __future__ import annotations
 
+import sys
 import threading
 import time
 import tkinter as tk
@@ -90,6 +91,9 @@ class ToolTip(tk.Toplevel):
         self.withdraw()  # Hide initially in case there is a delay
         # Disable ToolTip's title bar
         self.overrideredirect(True)
+        # Hide Tooltip's window from the taskbar on Windows
+        if sys.platform == "win32":
+            self.wm_attributes("-toolwindow", True)
 
         # StringVar instance for msg string|function
         self.msg_var = tk.StringVar()
@@ -214,14 +218,13 @@ class ToolTip(tk.Toplevel):
 
             def animation():
                 if not self.is_shown:
+                    self.is_shown = True
                     self.wm_attributes("-alpha", 0)
 
                     for i in range(11):
                         self.wm_attributes("-alpha", 0.1 * i)
                         self.update()
                         time.sleep(0.01)
-
-                    self.is_shown = True
 
             if self.animations:
                 threading.Thread(target=animation, daemon=True).start()
