@@ -26,7 +26,7 @@ def main():
             text += "follow tooltip: \u2714\n"  # yes
         else:
             follow = False
-            text += "follow tooltip: \u274C\n"  # no
+            text += "follow tooltip: \u274c\n"  # no
         if j % 2 == 0:
             msg = time.asctime
             text += "tooltip: Function"
