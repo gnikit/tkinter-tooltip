@@ -95,6 +95,7 @@ class ToolTip(tk.Toplevel):
         self.refresh = refresh
         self.x_offset = x_offset
         self.y_offset = y_offset
+        self._hidden = False
         # visibility status of the ToolTip inside|outside|visible
         self.status = ToolTipStatus.OUTSIDE
         self.last_moved = 0.0
@@ -129,6 +130,23 @@ class ToolTip(tk.Toplevel):
                 b.unbind()
             self.bindigs.clear()
             super().destroy()
+
+    def hide(self) -> None:
+        """Hides (aka. disables) the ToolTip."""
+        self._hidden = True
+        self.withdraw()
+
+    def show(self) -> None:
+        """Enables the ToolTip after previously hiding (disabling) it.
+
+        This does not immediately show the tooltip, but
+        rather allows the tooltip to be shown when appropriate (i.e. on
+        next enter). If appropriate, the tooltip is shown immediately
+        """
+        self._hidden = False
+        if self.state == ToolTipStatus.VISIBLE:
+            self._update_message()
+            self.deiconify()
 
     def on_enter(self, event: tk.Event) -> None:
         """
@@ -183,7 +201,8 @@ class ToolTip(tk.Toplevel):
 
         if self.status == ToolTipStatus.VISIBLE:
             self._update_message()
-            self.deiconify()
+            if not self._hidden:
+                self.deiconify()
 
             # Recursively call _show to update ToolTip with the newest value of msg
             # This is a race condition which only exits when upon a binding change
