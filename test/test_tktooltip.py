@@ -1,7 +1,9 @@
 import tkinter as tk
 from typing import Callable
+from unittest.mock import patch
 
 import pytest
+from screeninfo.common import Monitor
 
 from tktooltip import ToolTip, ToolTipStatus
 
@@ -91,3 +93,29 @@ def test_tooltip_destroy(widget: tk.Widget):
     tooltip.destroy()
     print(tooltip.bindigs)
     assert tooltip.bindigs == []
+
+
+@pytest.fixture
+def get_monitors():
+    return [
+        Monitor(x=0, y=0, width=1920, height=1080, name="DISPLAY1", is_primary=True),
+        Monitor(x=1920, y=0, width=1366, height=768, name="DISPLAY2", is_primary=False),
+        Monitor(
+            x=3286, y=0, width=1920, height=1080, name="DISPLAY3", is_primary=False
+        ),
+    ]
+
+
+def test_tooltip_overflow(widget: tk.Widget, get_monitors: list[Monitor]):
+    with patch("screeninfo.get_monitors", return_value=get_monitors):
+        tooltip = ToolTip(widget, msg="Test\nTest")
+        widget.event_generate("<Enter>", rootx=3280, rooty=760)
+        tooltip._show()
+        assert (
+            tooltip.message_widget.winfo_rootx() + tooltip.message_widget.winfo_width()
+            < 3286
+        )
+        assert (
+            tooltip.message_widget.winfo_rooty() + tooltip.message_widget.winfo_height()
+            < 768
+        )
