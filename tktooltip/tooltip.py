@@ -4,6 +4,8 @@ Module defining the ToolTip widget
 
 from __future__ import annotations
 
+import sys
+import threading
 import time
 import tkinter as tk
 from contextlib import suppress
@@ -45,6 +47,7 @@ class ToolTip(tk.Toplevel):
         msg: str | list[str] | Callable[[], str | list[str]],
         delay: float = 0.0,
         follow: bool = True,
+        animations: bool = True,
         refresh: float = 1.0,
         x_offset: int = +10,
         y_offset: int = +10,
@@ -66,6 +69,9 @@ class ToolTip(tk.Toplevel):
             Delay in seconds before the ToolTip appears, by default 0.0
         follow : `bool`, optional
             ToolTip follows motion, otherwise hides, by default True
+        animations : `bool`, optional
+            ToolTip fades in when showing and fades out when hiding, by default True.
+            This requires a compositing window manager on Linux to have any effect.
         refresh : `float`, optional
             Refresh rate in seconds for strings and functions when mouse is
             stationary and inside the widget, by default 1.0
@@ -85,6 +91,9 @@ class ToolTip(tk.Toplevel):
         self.withdraw()  # Hide initially in case there is a delay
         # Disable ToolTip's title bar
         self.overrideredirect(True)
+        # Hide Tooltip's window from the taskbar on Windows
+        if sys.platform == "win32":
+            self.wm_attributes("-toolwindow", True)
 
         # StringVar instance for msg string|function
         self.msg_var = tk.StringVar()
@@ -92,6 +101,7 @@ class ToolTip(tk.Toplevel):
         self._update_message()
         self.delay = delay
         self.follow = follow
+        self.animations = animations
         self.refresh = refresh
         self.x_offset = x_offset
         self.y_offset = y_offset
@@ -144,7 +154,21 @@ class ToolTip(tk.Toplevel):
         Hides the ToolTip.
         """
         self.status = ToolTipStatus.OUTSIDE
-        self.withdraw()
+
+        def animation():
+            self.wm_attributes("-alpha", 1)
+
+            for i in range(11):
+                self.wm_attributes("-alpha", 0.1 * (10 - i))
+                self.update()
+                time.sleep(0.01)
+
+            self.withdraw()
+
+        if self.animations:
+            threading.Thread(target=animation, daemon=True).start()
+        else:
+            self.withdraw()
 
     def _update_tooltip_coords(self, event: tk.Event) -> None:
         """
@@ -179,11 +203,33 @@ class ToolTip(tk.Toplevel):
             self.status == ToolTipStatus.INSIDE
             and time.perf_counter() - self.last_moved >= self.delay
         ):
+            self.is_shown = False
             self.status = ToolTipStatus.VISIBLE
 
         if self.status == ToolTipStatus.VISIBLE:
             self._update_message()
             self.deiconify()
+
+            if not self.is_shown:
+                x_pos = self.x_offset + self.winfo_pointerx()
+                y_pos = self.y_offset + self.winfo_pointery()
+
+                self.geometry(f"+{x_pos}+{y_pos}")
+
+            def animation():
+                if not self.is_shown:
+                    self.is_shown = True
+                    self.wm_attributes("-alpha", 0)
+
+                    for i in range(11):
+                        self.wm_attributes("-alpha", 0.1 * i)
+                        self.update()
+                        time.sleep(0.01)
+
+            if self.animations:
+                threading.Thread(target=animation, daemon=True).start()
+            else:
+                self.is_shown = True
 
             # Recursively call _show to update ToolTip with the newest value of msg
             # This is a race condition which only exits when upon a binding change
