@@ -32,7 +32,7 @@ class Binding:
 
 class ToolTip(tk.Toplevel):
     """
-    Creates a ToolTip (pop-up) widget for tkinter
+    Creates a ToolTip (pop-up) widget for tkinter.
     """
 
     DEFAULT_PARENT_KWARGS = {"bg": "black", "padx": 1, "pady": 1}
@@ -46,37 +46,38 @@ class ToolTip(tk.Toplevel):
         delay: float = 0.0,
         follow: bool = True,
         refresh: float = 1.0,
-        x_offset: int = +10,
-        y_offset: int = +10,
-        parent_kwargs: dict | None = None,
+        x_offset: int = 10,
+        y_offset: int = 10,
+        parent_kwargs: dict[str, Any] | None = None,
         **message_kwargs: Any,
     ):
-        """Create a ToolTip. Allows for `**kwargs` to be passed on both
-            the parent frame and the ToolTip message
+        """
+        Create a ToolTip. Allows for `**kwargs` to be passed on both
+        the parent frame and the ToolTip message.
 
         Parameters
         ----------
         widget : tk.Widget
-            The widget this ToolTip is assigned to
-        msg : `Union[str, Callable]`, optional
+            The widget this ToolTip is assigned to.
+        msg : Union[str, list[str], Callable[[], Union[str, list[str]]]]
             A string message (can be dynamic) assigned to the ToolTip.
-            Alternatively, it can be set to a function thatreturns a string,
-            by default None
-        delay : `float`, optional
-            Delay in seconds before the ToolTip appears, by default 0.0
-        follow : `bool`, optional
-            ToolTip follows motion, otherwise hides, by default True
-        refresh : `float`, optional
+            Alternatively, it can be set to a function that returns a string.
+        delay : float, optional
+            Delay in seconds before the ToolTip appears, by default 0.0.
+        follow : bool, optional
+            ToolTip follows motion, otherwise hides, by default True.
+        refresh : float, optional
             Refresh rate in seconds for strings and functions when mouse is
-            stationary and inside the widget, by default 1.0
-        x_offset : `int`, optional
-            x-coordinate offset for the ToolTip, by default +10
-        y_offset : `int`, optional
-            y-coordinate offset for the ToolTip, by default +10
-        parent_kwargs : `dict`, optional
+            stationary and inside the widget, by default 1.0.
+        x_offset : int, optional
+            x-coordinate offset for the ToolTip, by default 10.
+        y_offset : int, optional
+            y-coordinate offset for the ToolTip, by default 10.
+        parent_kwargs : dict[str, Any], optional
             Optional kwargs to be passed into the parent frame,
-            by default `{"bg": "black", "padx": 1, "pady": 1}`
-        **message_kwargs : tkinter `**kwargs` passed directly into the ToolTip
+            by default {"bg": "black", "padx": 1, "pady": 1}.
+        **message_kwargs : Any
+            Tkinter `**kwargs` passed directly into the ToolTip message widget.
         """
         self.widget = widget
         # ToolTip should have the same parent as the widget unless stated
@@ -131,25 +132,19 @@ class ToolTip(tk.Toplevel):
             super().destroy()
 
     def on_enter(self, event: tk.Event) -> None:
-        """
-        Processes motion within the widget including entering and moving.
-        """
+        """Process entering the widget area."""
         self.last_moved = time.perf_counter()
         self.status = ToolTipStatus.INSIDE
         self._update_tooltip_coords(event)
         self.after(int(self.delay * self.S_TO_MS), self._show)
 
     def on_leave(self, event: tk.Event | None = None) -> None:
-        """
-        Hides the ToolTip.
-        """
+        """Hide the ToolTip when leaving the widget area."""
         self.status = ToolTipStatus.OUTSIDE
         self.withdraw()
 
     def _update_tooltip_coords(self, event: tk.Event) -> None:
-        """
-        Updates the ToolTip's position.
-        """
+        """Update the ToolTip's position."""
         self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
 
     def _update_message(self) -> None:
@@ -171,9 +166,9 @@ class ToolTip(tk.Toplevel):
 
     def _show(self) -> None:
         """
-        Displays the ToolTip.
+        Display the ToolTip and schedule the next update.
 
-        Recursively queues `_show` in the scheduler every `self.refresh` seconds
+        Recursively queues `_show` in the scheduler every `self.refresh` seconds.
         """
         if (
             self.status == ToolTipStatus.INSIDE
