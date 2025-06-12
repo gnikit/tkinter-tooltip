@@ -10,6 +10,8 @@ from contextlib import suppress
 from enum import Enum, auto
 from typing import Any, Callable
 
+import screeninfo
+
 # This code is based on Tucker Beck's implementation licensed under an MIT License
 # Original code: http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
 
@@ -85,6 +87,8 @@ class ToolTip(tk.Toplevel):
         self.withdraw()  # Hide initially in case there is a delay
         # Disable ToolTip's title bar
         self.overrideredirect(True)
+        # Mkae ToolTip topmost to display over taskbar
+        self.attributes("-topmost", True)
 
         # StringVar instance for msg string|function
         self.msg_var = tk.StringVar()
@@ -93,8 +97,9 @@ class ToolTip(tk.Toplevel):
         self.delay = delay
         self.follow = follow
         self.refresh = refresh
-        self.x_offset = x_offset
-        self.y_offset = y_offset
+        # ensure a minimum offset of 2 to avoid flickering
+        self.x_offset = x_offset if x_offset > 0 else 2
+        self.y_offset = y_offset if y_offset > 0 else 2
         # visibility status of the ToolTip inside|outside|visible
         self.status = ToolTipStatus.OUTSIDE
         self.last_moved = 0.0
@@ -107,6 +112,7 @@ class ToolTip(tk.Toplevel):
             **self.message_kwargs,
         )
         self.message_widget.grid()
+        self.monitors = screeninfo.get_monitors()
         self.bindigs = self._init_bindings()
 
     def _init_bindings(self) -> list[Binding]:
@@ -150,7 +156,38 @@ class ToolTip(tk.Toplevel):
         """
         Updates the ToolTip's position.
         """
-        self.geometry(f"+{event.x_root + self.x_offset}+{event.y_root + self.y_offset}")
+        w_left = event.x_root + self.x_offset
+        w_top = event.y_root + self.y_offset
+
+        w_right = w_left + self.message_widget.winfo_width()
+        w_bottom = w_top + self.message_widget.winfo_height()
+
+        for monitor in self.monitors:
+            # check if cursor is in monitor
+            if (
+                monitor.x <= event.x_root < monitor.x + monitor.width
+                and monitor.y <= event.y_root < monitor.y + monitor.height
+            ):
+                # move tooltip left if it exceedes the monitor's right boundary
+                if w_right >= monitor.x + monitor.width:
+                    w_left = (
+                        monitor.x
+                        + monitor.width
+                        - self.message_widget.winfo_width()
+                        - 2
+                    )
+
+                # flip tooltip if it exceedes the monitor's bottom boundary
+                if w_bottom >= monitor.y + monitor.height:
+                    w_top = (
+                        event.y_root
+                        - self.y_offset
+                        - self.message_widget.winfo_height()
+                    )
+
+                break
+
+        self.geometry(f"+{w_left}+{w_top}")
 
     def _update_message(self) -> None:
         """Update the message displayed in the tooltip."""
